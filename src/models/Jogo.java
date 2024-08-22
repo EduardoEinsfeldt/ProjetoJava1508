@@ -13,13 +13,13 @@ public class Jogo {
     private JogoClassificacao ClassificacaoJogo;
     private UUID gameId;
 
-    public Jogo(String titulo, String anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo, UUID gameId) {
+    public Jogo(String titulo, String anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo) {
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
-        GameGenre = GameGenre;
+        this.GameGenre = GameGenre;
         this.desenvolvedor = desenvolvedor;
         this.publisher = publisher;
-        ClassificacaoJogo = ClassificacaoJogo;
+        this.ClassificacaoJogo = ClassificacaoJogo;
         this.gameId = gameId;
 
     }
@@ -45,7 +45,7 @@ public class Jogo {
     }
 
     public void setGameGenre(JogoGenre GameGenre) {
-        JogoGenre = GameGenre;
+        this.GameGenre = GameGenre;
     }
 
     public String getDesenvolvedor() {
@@ -69,7 +69,7 @@ public class Jogo {
     }
 
     public void setClassificacaoJogo(JogoClassificacao ClassificacaoJogo) {
-        JogoClassificacao = ClassificacaoJogo;
+        this.ClassificacaoJogo = ClassificacaoJogo;
     }
 
     public UUID getGameId(){
@@ -78,11 +78,6 @@ public class Jogo {
 
     public void setGameId(UUID gameId) {
         this.gameId = gameId;
-    }
-
-    @Override
-    public String toString() {
-        return "Jogo : {"+"\nTítulo = "+this.titulo+"\nAno de Lançamento = "+this.anoLancamento+"\nGênero = "+GameGenre+"\nDesenvolvedor = "+this.desenvolvedor+"\nPublicadora = "+this.publisher+"\nClassificação = "+ClassificacaoJogo+"\nUUID = "+gameId+"\n}";
     }
 
 }
