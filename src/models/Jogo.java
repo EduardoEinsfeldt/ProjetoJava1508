@@ -11,9 +11,9 @@ public class Jogo {
     private String publisher;
     private JogoGenre GameGenre;
     private JogoClassificacao ClassificacaoJogo;
-    private UUID gameId;
+    private String gameId;
 
-    public Jogo(String titulo, String anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo) {
+    public Jogo(String titulo, String anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo, String gameId) {
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
         this.GameGenre = GameGenre;
@@ -72,11 +72,11 @@ public class Jogo {
         this.ClassificacaoJogo = ClassificacaoJogo;
     }
 
-    public UUID getGameId(){
+    public String getGameId(){
         return gameId;
     }
 
-    public void setGameId(UUID gameId) {
+    public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 

@@ -20,8 +20,9 @@ public class Principal {
                     "\n2- Listar" +
                     "\n3- Consultar por Título" +
                     "\n4- Consultar por Classificação Etária" +
-                    "\n5- Alterar" +
-                    "\n6- Excluir" +
+                    "\n5- Consultar por ID" +
+                    "\n6- Alterar" +
+                    "\n7- Excluir" +
                     "\nDigite a operação desejada: ");
             int opcao = leitor.nextInt();
 
@@ -119,14 +120,16 @@ public class Principal {
                         }
                     }
 
+                System.out.println("Id do Jogo: ");
+                String gameId = leitor.nextLine();
 
-                Jogo jogo = new Jogo(titulo, anoLancamento, GameGenre, desenvolvedor, publisher, ClassificacaoJogo);
+                Jogo jogo = new Jogo(titulo, anoLancamento, GameGenre, desenvolvedor, publisher, ClassificacaoJogo, gameId);
                 listaJogos.add(jogo);
                 System.out.println("Jogo cadastrado.");
             } else if (opcao == 2) {
                 System.out.println("Jogos:\n");
                 for (Jogo jogo : listaJogos) {
-                    System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo());
+                    System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());
                     System.out.println("<------------------------->");
                 }
             }else if (opcao ==3) {
@@ -135,7 +138,7 @@ public class Principal {
                 boolean encontrado = false;
                 for (Jogo jogo : listaJogos) {
                     if (jogo.getTitulo().toLowerCase().equals(titulo)) {
-                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo());
+                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());
                         System.out.println("<------------------------->");
                         encontrado=true;
                         break;
@@ -146,7 +149,7 @@ public class Principal {
                 }
             }else if (opcao ==4) {
                 JogoClassificacao ClassificacaoJogo = null;
-                while (ClassificacaoJogo==null) {
+                while (ClassificacaoJogo == null) {
                     System.out.println("Classíficação Etária: \n(DEZOITO) \n(DEZESSEIS) \n(CATORZE) \n(DOZE)");
                     String opcaoClassificacaoJogo = leitor.nextLine().toUpperCase();
 
@@ -170,24 +173,37 @@ public class Principal {
                 }
                 boolean encontrado = false;
                 for (Jogo jogo : listaJogos) {
-                    if(jogo.getClassificacaoJogo() == ClassificacaoJogo) {
-                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo());
-                        System.out.println("<------------------------->");
-                        encontrado=true;
+                    if (jogo.getClassificacaoJogo() == ClassificacaoJogo) {
+                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());                        System.out.println("<------------------------->");
+                        encontrado = true;
                         break;
                     }
                 }
                 if (!encontrado) {
                     System.out.println("Jogos para está faixa etária não existem.");
                 }
-            } else if (opcao == 5) {
+            }else if (opcao == 5) {
+                System.out.println("Qual o jogo que gostaria de procurar por? Pesquise pelo ID.");
+                String gameId = leitor.nextLine().toLowerCase();
+                boolean encontrado = false;
+                for (Jogo jogo : listaJogos) {
+                    if (jogo.getTitulo().toLowerCase().equals(gameId)) {
+                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());
+                        System.out.println("<------------------------->");
+                        encontrado=true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    System.out.println("Esse jogo não existe.");
+                }
+            } else if (opcao == 6) {
                 System.out.println("Qual Jogo gostaria de modificar? Insira o Titulo.");
                 String titulo = leitor.nextLine().toLowerCase();
                 boolean encontrado = false;
                 for (Jogo jogo : listaJogos) {
                     if (jogo.getTitulo().toLowerCase().equals(titulo)) {
-                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo());
-                        System.out.println("<------------------------->");
+                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());                        System.out.println("<------------------------->");
                         listaJogos.remove(jogo);
                         System.out.println("Qual o Título?");
                         String tituloNovo = leitor.nextLine();
@@ -277,7 +293,9 @@ public class Principal {
                                     break;
                             }
                         }
-                        Jogo jogoAlterado = new Jogo(tituloNovo, anoLancamentoNovo, GameGenreNovo, desenvolvedorNovo, publisherNovo, ClassificacaoJogoNovo);
+                        System.out.println("Id do Jogo = ");
+                        String gameIdNovo = leitor.nextLine();
+                        Jogo jogoAlterado = new Jogo(tituloNovo, anoLancamentoNovo, GameGenreNovo, desenvolvedorNovo, publisherNovo, ClassificacaoJogoNovo, gameIdNovo);
                         listaJogos.add(jogoAlterado);
                         encontrado=true;
                         break;
@@ -286,7 +304,7 @@ public class Principal {
                 if (!encontrado) {
                     System.out.println("Jogo não existe.");
                 }
-            }else if (opcao==6) {
+            }else if (opcao==7) {
                 System.out.println("Qual Jogo gostaria de excluir?");
                 String titulo = leitor.nextLine().toLowerCase();
                 boolean encontrado = false;
