@@ -1,10 +1,17 @@
+//Eduardo Augusto Pelegrino Einsfeldt
+//RM - 556460
 package tests;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 import enums.JogoGenre;
 import enums.JogoClassificacao;
 import models.Jogo;
+import models.JogoResumo;
+
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class Principal {
@@ -21,8 +28,12 @@ public class Principal {
                     "\n3- Consultar por Título" +
                     "\n4- Consultar por Classificação Etária" +
                     "\n5- Consultar por ID" +
-                    "\n6- Alterar" +
-                    "\n7- Excluir" +
+                    "\n6- Consultar por Ano de Lançamento" +
+                    "\n7- Consultar por Desenvolvedor" +
+                    "\n8- Consultar por Publicador" +
+                    "\n9- Resumo dos Jogos" +
+                    "\n10- Alterar" +
+                    "\n11- Excluir" +
                     "\nDigite a operação desejada: ");
             int opcao = leitor.nextInt();
 
@@ -30,11 +41,9 @@ public class Principal {
                 System.out.println("Saindo...");
                 break;
             } else if (opcao == 1) {
-                System.out.println("Título do Jogo = ");
-                String titulo = leitor.nextLine();
 
                 System.out.println("Ano de Lançamento = ");
-                String anoLancamento = leitor.nextLine();
+                int anoLancamento = leitor.nextInt();
 
                 JogoGenre GameGenre = null;
                 while (GameGenre == null) {
@@ -123,6 +132,9 @@ public class Principal {
                 System.out.println("Id do Jogo: ");
                 String gameId = leitor.nextLine();
 
+                System.out.println("Título do Jogo = ");
+                String titulo = leitor.nextLine();
+
                 Jogo jogo = new Jogo(titulo, anoLancamento, GameGenre, desenvolvedor, publisher, ClassificacaoJogo, gameId);
                 listaJogos.add(jogo);
                 System.out.println("Jogo cadastrado.");
@@ -184,20 +196,60 @@ public class Principal {
                 }
             }else if (opcao == 5) {
                 System.out.println("Qual o jogo que gostaria de procurar por? Pesquise pelo ID.");
-                String gameId = leitor.nextLine().toLowerCase();
+                String gameId = leitor.nextLine();
                 boolean encontrado = false;
                 for (Jogo jogo : listaJogos) {
-                    if (jogo.getTitulo().toLowerCase().equals(gameId)) {
-                        System.out.println(jogo.getTitulo() + "/" +jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());
+                    if (jogo.getGameId().equals(gameId)) {
+                        System.out.println(jogo.getTitulo() + "/" + jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId());
                         System.out.println("<------------------------->");
-                        encontrado=true;
+                        encontrado = true;
                         break;
                     }
                 }
                 if (!encontrado) {
                     System.out.println("Esse jogo não existe.");
                 }
-            } else if (opcao == 6) {
+            }else if (opcao == 6) {
+                System.out.println("Pesquisando por Ano de Lançamento...");
+                listaJogos.stream()
+                        .sorted(Comparator.comparing(Jogo::getAnoLancamento))
+                        .forEach(jogo -> System.out.println(jogo.getTitulo() + "/" + jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId()));
+            }else if (opcao == 7) {
+                System.out.println("Digite o nome do desenvolvedor para consultar:");
+                String desenvolvedor = leitor.nextLine().toLowerCase();
+
+                listaJogos.stream()
+                        .filter(jogo -> jogo.getDesenvolvedor().toLowerCase().equals(desenvolvedor))
+                        .sorted(Comparator.comparing(Jogo::getTitulo))
+                        .forEach(jogo -> System.out.println(jogo.getTitulo() + "/" + jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId()));
+
+                if (listaJogos.stream().noneMatch(jogo -> jogo.getDesenvolvedor().toLowerCase().equals(desenvolvedor))) {
+                    System.out.println("Nenhum jogo encontrado para esse desenvolvedor.");
+                }
+
+            }else if (opcao == 8) {
+                System.out.println("Digite o nome do publicador para consultar:");
+                String publicador = leitor.nextLine().toLowerCase();
+
+                listaJogos.stream()
+                        .filter(jogo -> jogo.getPublisher().toLowerCase().equals(publicador))
+                        .sorted(Comparator.comparing(Jogo::getTitulo))
+                        .forEach(jogo -> System.out.println(jogo.getTitulo() + "/" + jogo.getAnoLancamento() + "/" + jogo.getGameGenre() + "/" + jogo.getDesenvolvedor() + "/" + jogo.getPublisher() + "/" + jogo.getClassificacaoJogo() + "/" + jogo.getGameId()));
+
+
+                if (listaJogos.stream().noneMatch(jogo -> jogo.getPublisher().toLowerCase().equals(publicador))) {
+                    System.out.println("Nenhum jogo encontrado para esse publicador.");
+                }
+
+            }else if (opcao == 9) {
+                            System.out.println("Gerando lista com título, ano de lançamento e ID...");
+                            List<JogoResumo> listaResumo = listaJogos.stream()
+                                    .map(jogo -> new JogoResumo(jogo.getTitulo(), jogo.getAnoLancamento(), jogo.getGameId()))
+                                    .collect(Collectors.toList());
+
+                            listaResumo.forEach(resumo -> System.out.println(resumo.getTitulo() + "/" + resumo.getAnoLancamento() + "/" + resumo.getGameId()));
+
+            }else if (opcao == 10) {
                 System.out.println("Qual Jogo gostaria de modificar? Insira o Titulo.");
                 String titulo = leitor.nextLine().toLowerCase();
                 boolean encontrado = false;
@@ -208,7 +260,7 @@ public class Principal {
                         System.out.println("Qual o Título?");
                         String tituloNovo = leitor.nextLine();
                         System.out.println("Ano de Lançamento = ");
-                        String anoLancamentoNovo = leitor.nextLine();
+                        int anoLancamentoNovo = leitor.nextInt();
 
                         JogoGenre GameGenreNovo = null;
                         while (GameGenreNovo == null) {
@@ -304,7 +356,7 @@ public class Principal {
                 if (!encontrado) {
                     System.out.println("Jogo não existe.");
                 }
-            }else if (opcao==7) {
+            }else if (opcao==11) {
                 System.out.println("Qual Jogo gostaria de excluir?");
                 String titulo = leitor.nextLine().toLowerCase();
                 boolean encontrado = false;

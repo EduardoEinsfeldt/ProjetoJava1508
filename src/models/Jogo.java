@@ -1,3 +1,6 @@
+//Eduardo Augusto Pelegrino Einsfeldt
+//RM - 556460
+
 package models;
 
 import enums.JogoClassificacao;
@@ -6,14 +9,14 @@ import java.util.UUID;
 
 public class Jogo {
     private String titulo;
-    private String anoLancamento;
+    private int anoLancamento;
     private String desenvolvedor;
     private String publisher;
     private JogoGenre GameGenre;
     private JogoClassificacao ClassificacaoJogo;
     private String gameId;
 
-    public Jogo(String titulo, String anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo, String gameId) {
+    public Jogo(String titulo, int anoLancamento, JogoGenre GameGenre, String desenvolvedor, String publisher, JogoClassificacao ClassificacaoJogo, String gameId) {
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
         this.GameGenre = GameGenre;
@@ -32,11 +35,11 @@ public class Jogo {
         this.titulo = titulo;
     }
 
-    public String getAnoLancamento() {
+    public int getAnoLancamento() {
         return anoLancamento;
     }
 
-    public void setAnoLancamento(String anoLancamento) {
+    public void setAnoLancamento(int anoLancamento) {
         this.anoLancamento = anoLancamento;
     }
 
